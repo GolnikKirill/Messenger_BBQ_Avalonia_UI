@@ -1,0 +1,85 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BBQ.ViewModels"
+        xmlns:models="using:BBQ.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="BBQ.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="BBQ">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+        to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="25*,75*" Margin="10">
+        <Border Grid.Column="0" Background="Gray" CornerRadius="8">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="20">
+                <StackPanel Grid.Row="0" Spacing="4">
+                    <TextBlock Text="Your nickname"></TextBlock>
+                    <TextBox Text="{Binding MyNickname, UpdateSourceTrigger=PropertyChanged}"
+                             x:Name="NicknameInputField"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Spacing="4">
+                    <TextBlock Text="Your IP"></TextBlock>
+                    <TextBox Text="{Binding MyIp}" IsReadOnly="True"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Spacing="4">
+                    <TextBlock Text="Your port"></TextBlock>
+                    <TextBox Text="{Binding MyPort}" x:Name="LocalPort"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Spacing="4">
+                    <TextBlock Text="Connect to IP"></TextBlock>
+                    <TextBox Text="{Binding RemoteIp}" x:Name="ConnectToIP"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="4" Spacing="4">
+                    <TextBlock Text="Connect to port"></TextBlock>
+                    <TextBox Text="{Binding RemotePort}" x:Name="ConnectToPort"></TextBox>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Grid Grid.Column="1" RowDefinitions="*, auto" Margin="15,0,0,0">
+            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="MessagePanel" ItemsSource="{Binding ChatMessages}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel VerticalAlignment="Bottom" Spacing="8" Margin="0,0,0,60"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:MessageModel">
+                            <Border BorderBrush="{Binding BorderColor}"
+                                    BorderThickness="1.5"
+                                    CornerRadius="9"
+                                    Padding="16,12"
+                                    Margin="0,4"
+                                    MinWidth="20"
+                                    MaxWidth="600"
+                                    HorizontalAlignment="{Binding Alignment}">
+                                <TextBlock FontSize="16" Foreground="White" TextWrapping="Wrap">
+                                    <Run Text="{Binding SenderName}"/>
+                                    <Run Text=": "/>
+                                    <Run Text="{Binding Text}"/>
+                                </TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <TextBox x:Name="MessageInputField"
+                     Text="{Binding MessageText, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Type your message here"
+                     PlaceholderForeground="White"
+                     Margin="0,0,15,0" Height="30" VerticalAlignment="Bottom">
+                <TextBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding SendMessageCommand}"/>
+                </TextBox.KeyBindings>
+            </TextBox>
+        </Grid>
+    </Grid>
+</Window>

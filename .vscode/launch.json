@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Peer A 5001",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dotnet: build",
+            "program": "${workspaceFolder}/bin/Debug/net10.0/BBQ.dll",
+            "args": ["--port", "5001", "--username","Atlas"],
+        },
+        {
+            "name": "Peer B 5002",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dotnet: build",
+            "program": "${workspaceFolder}/bin/Debug/net10.0/BBQ.dll",
+            "args": ["--port", "5002","--username","P-Body"],
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run p2p",
+            "configurations": ["Peer A 5001","Peer B 5002"]
+        }
+    ]
+}

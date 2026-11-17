@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Peer A 5001",
+            "type": "dotnet",
+            "request": "launch",
+            "preLaunchTask": "dotnet: build",
+            "projectPath": "${workspaceFolder}/BBQ.csproj",
+        },
+        {
+            "name": "Peer B 5002",
+            "type": "dotnet",
+            "request": "launch",
+            "preLaunchTask": "dotnet: build",
+            "projectPath": "${workspaceFolder}/BBQ.csproj",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run p2p",
+            "configurations": ["Peer A 5001","Peer B 5002"]
+        }
+    ]
+}
